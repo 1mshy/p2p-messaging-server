@@ -2,8 +2,9 @@ const express = require("express");
 const app = express();
 
 const PORT = 5555;
-const registered_users = {
-}
+const registered_users = new Set();
+app.use(express.json());
+
 app.get("/ip", (request, response) => {
     // response.send("Hi there");
     console.log(request.baseUrl);
@@ -19,13 +20,13 @@ app.get("/ip", (request, response) => {
 * */
 app.post("/register", (request, response) => {
     // response.send("Hi there");
+    console.log(request.body);
     const uuid = request.body.uuid;
-    registered_users[uuid] = request.ip;
+    const ip = request.ip;
+    console.log(`registering ${uuid} with ip ${ip}`);
+    registered_users.add({uuid: ip});
     response.json({
-        ip: request.ip,
-        ips: request.ips,
-        origin: request.ip,
-        registered_users: registered_users
+        registered_users: Array.from(registered_users)
     });
 });
 
