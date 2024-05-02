@@ -19,15 +19,14 @@ app.get("/ip", (request, response) => {
  * @param {string} uuid - The user uuid
 * */
 app.post("/register", (request, response) => {
-    // response.send("Hi there");
     console.log(request.body);
     const uuid = request.body.uuid;
     const ip = request.ip;
-    console.log(`registering ${uuid} with ip ${ip}`);
     registered_users.add({uuid: ip});
     response.json({
         registered_users: Array.from(registered_users)
     });
+    console.log(registered_users)
 });
 
 app.get("/about", (request, response) => {
